@@ -43,13 +43,20 @@ var Brad01Layer = cc.Layer.extend({
         this.poker4.setScale(0.5,0.5);
         this.addChild(this.poker4);
 
-
+        this.test1();
 
 
         this.myMouseListener(this);
 
 
         return true;
+    },
+
+    test1: function(){
+
+        this.poker4.setSpriteFrame("pokers_1.png"); // for plist
+        //this.poker4.setTexture(res.status_off); // no access plist
+
     },
 
     myMouseListener: function (layer) {

@@ -9,7 +9,6 @@ var Brad02Layer = cc.Layer.extend({
     ctor:function () {
         this._super();
 
-        this.shufflePokers();
 
         cc.spriteFrameCache.addSpriteFrames(
             res.poker_plist, res.poker_png);
@@ -21,7 +20,7 @@ var Brad02Layer = cc.Layer.extend({
 
             for (var i=0; i<this.players[j].length; i++){
                 this.players[j][i] = new cc.Sprite(
-                    "#pokers_" + this.cards[j][i] + ".png");
+                    "#pokers_back.png");
                 this.players[j][i].x = cc.winSize.width * (i+1)/14;
                 this.players[j][i].y = cc.winSize.height * (j+1)/5;
                 this.players[j][i].setScale(this.sx, this.sy);
@@ -29,8 +28,23 @@ var Brad02Layer = cc.Layer.extend({
             }
         }
 
+        this.setUpmymouse(this);
 
         return true;
+    },
+
+    setUpmymouse: function(layer){
+        if ('mouse' in cc.sys.capabilities){
+            // define listener object
+            var mouseListener = {
+                event: cc.EventListener.MOUSE,
+                onMouseDown: function (event) {
+                    layer.shufflePokers();
+
+                },
+            };
+            cc.eventManager.addListener(mouseListener,this);
+        }
     },
 
     shufflePokers: function () {
@@ -43,11 +57,17 @@ var Brad02Layer = cc.Layer.extend({
             this.cards[i%4][parseInt(i/4)] = this.pokers[i];
         }
 
-        this.cards[0].sort(function(a, b){return a-b});
-        this.cards[1].sort(function(a, b){return a-b});
-        this.cards[2].sort(function(a, b){return a-b});
-        this.cards[3].sort(function(a, b){return a-b});
+        for(var i=0; i<this.cards.length; i++){
+            this.cards[i].sort(function (a,b) {
+                return a-b;
+            });
 
+            for (var j=0; j<this.players[i].length; j++){
+                this.players[i][j].setSpriteFrame(
+                    "pokers_" + this.cards[i][j] + ".png");
+
+            }
+        }
 
     }
 
@@ -62,6 +82,9 @@ var Brad02Scene = cc.Scene.extend({
     }
 });
 
+function mysort(a,b) {
+    return a-b;
+}
 
 
 function shuffle(a){
