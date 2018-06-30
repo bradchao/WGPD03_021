@@ -12,8 +12,7 @@ var Brad02Layer = cc.Layer.extend({
         this.sprite = new cc.Sprite("#pokers_back.png");
         this.sx = (cc.winSize.width /13) / (this.sprite.width+24);
         this.sy = (cc.winSize.height /4) / (this.sprite.height+48);
-
-
+        
         for (var i=0; i<this.player1.length; i++){
             this.player1[i] = new cc.Sprite("#pokers_back.png");
             this.player1[i].x = cc.winSize.width * (i+1)/14;
